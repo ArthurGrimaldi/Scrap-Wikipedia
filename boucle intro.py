@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 
-url = "https://fr.wikipedia.org/wiki/Steve_Jobs"
+url = "https://fr.wikipedia.org/wiki/Romain_Grosjean"
 page = urlopen(url)
 html_bytes = page.read()
 html = html_bytes.decode("utf-8")
@@ -22,5 +22,14 @@ while True:
     if table.find_next_sibling().name == 'p':
         limit += 1
     else:
-        print(limit)
         break
+
+intro = soup.find('div', {'class': 'infobox'}).find_next_siblings('p', limit=limit + 1)
+
+contenu = []
+for i in intro:
+    contenu.append(i.get_text())
+
+listToStr = ' '.join([str(elem) for elem in contenu])
+
+print(listToStr)
